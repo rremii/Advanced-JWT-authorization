@@ -1,0 +1,22 @@
+// PAGE SETTINGS ===============================================================================================================================================================================================================================================================================================
+
+//adaptive type
+// 1 = responsiveness (wrapper has no breakpoints)
+// 2 = by breakpoints (the wrapper changes its width by breakpoints)
+$responsiveType: 1;
+
+// minimum width of page
+$minWidth: 320;
+
+// maximum width of page
+$maxWidth: 1980;
+
+// width of bounding container(0 = no padding)
+$maxWidthWrapper: 0;
+
+// general padding of container
+//(30 =  15px to left and right, 0 = no padding)
+$wrapperPadding: 30;
+
+//The width of the first breakpoint trigger
+$wrapperWidth: $maxWidthWrapper + $wrapperPadding;

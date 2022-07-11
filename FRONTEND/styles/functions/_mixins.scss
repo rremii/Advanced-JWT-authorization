@@ -1,0 +1,131 @@
+//fast media tags
+@mixin media-break($size, $width) {
+  @media screen and (#{ $size }-width: $width) {
+    @content;
+  }
+}
+
+//inserting font
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+
+    font-display: swap;
+    src: url("../fonts/#{$file_name}.woff2") format("woff2"),
+    url("../fonts/#{$file_name}.woff") format("woff");
+    font-weight: #{$weight};
+    font-style: #{$style};
+  }
+}
+
+//Percent
+@function percent($px, $from) {
+  $result: ($px/$from) * 100%;
+  @return $result;
+}
+
+//REM
+@function rem($px) {
+  $result: ($px/16) + rem;
+  @return $result;
+}
+
+//EM
+@function em($px, $current: 16) {
+  $result: ($px/$current) + em;
+  @return $result;
+}
+
+
+//Currency
+@mixin currency($sym) {
+  &::after {
+    content: "#{$sym}";
+  }
+}
+
+// Grids
+@mixin gridCards($type: fit, $min: 280px, $max: 1fr, $gap: 30px) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat(auto-#{$type}, minmax($min, $max));
+}
+
+// Adaptive value (clamp)
+@mixin adaptiveValue(
+  $property,
+  $startSize,
+  $minSize,
+  $widthFrom: $wrapperWidth,
+  $widthTo: $minWidth,
+  $keepSize: 0
+) {
+  @if ($startSize==0) {
+    $startSize: 0.000001;
+  }
+  @if ($minSize==0) {
+    $minSize: 0.000001;
+  }
+
+  // Для calc();
+  $addSize: (($startSize - $minSize) / 16);
+
+  @if ($widthFrom == $wrapperWidth and $maxWidthWrapper == 0) {
+    $widthFrom: $maxWidth;
+  }
+
+  // break points in EM
+  $widthFromMedia: em($widthFrom);
+  $widthToMedia: em($widthTo);
+
+  // formula of fly value
+  // source: https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+  $slope: (($startSize - $minSize)/ ($widthFrom - $widthTo));
+  $yIntersection: -$widthTo * $slope + $minSize;
+  @if ($yIntersection==0) {
+    $yIntersection: 0.000001;
+  }
+  $flyValue: #{rem($yIntersection)} "+" #{$slope * 100}vw;
+
+  // getting property value
+  $propertyValue: #{"clamp(" rem($minSize) "," $flyValue "," rem($startSize) ")"};
+  // used if property value is a negative number
+  @if ($minSize > $startSize) {
+    $propertyValue: #{"clamp("
+      rem($startSize)
+      ","
+      $flyValue
+      ","
+      rem($minSize)
+      ")"};
+  }
+
+  // if clamp is supported clamp();
+  @supports ($property: $propertyValue) {
+    #{$property}: $propertyValue;
+  }
+  // if clamp is not supported clamp();
+  @supports not ($property: $propertyValue) {
+    #{$property}: calc(
+            #{rem($minSize)} + #{$addSize} * (100vw - #{rem($widthTo)}) / #{($widthFrom/16) - ($widthTo/ 16)}
+    );
+  }
+
+  // setting value by default
+  @if $widthFrom !=
+    $containerWidth and
+    $widthFrom !=
+    $maxWidth and
+    $keepSize !=
+    1 and
+    $keepSize !=
+    2 {
+    @media (min-width: $widthFromMedia) {
+      #{$property}: inherit;
+    }
+  }
+  @if $widthTo != $minWidth and $keepSize != 1 and $keepSize != 3 {
+    @media (max-width: $widthToMedia) {
+      #{$property}: inherit;
+    }
+  }
+}

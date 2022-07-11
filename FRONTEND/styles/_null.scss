@@ -1,0 +1,108 @@
+///getting data from settings
+@import "./functions/settings";
+  
+  
+  
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+html,
+body {
+  height: 100%;
+  min-width: $minWidth + px;
+}
+
+body {
+
+  color: var(--backgroundCol);
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+button,
+textarea {
+  
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  color: inherit;
+  background-color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+h1{
+  font-size: 8rem;
+}
+h2{
+  font-size: 6rem;
+}
+h3{
+ font-size: 4rem;
+}
+h4{
+  font-size: 3rem;
+}
+h5{
+  font-size: 2rem;
+}
+h6{
+  font-size: 1rem;
+}

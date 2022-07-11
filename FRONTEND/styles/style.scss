@@ -1,0 +1,95 @@
+//**************************************************************************************************************************************************
+// import settings =========================================================================================================================
+@import "./functions/settings";
+// adding mixins ===========================================================================================================================================================================================================================================================================
+@import "./functions/mixins";
+// adding null ============================================================================================================================
+@import "null";
+//*********************************************************************************************************************************************
+
+
+//breakpoints for a structure to work better not to touch
+$pc: em($wrapperWidth); // for PC,laptop
+$tablet: em(991.98); // for tablet
+$mobile: em(767.98); // for phones size L
+$mobileSmall: em(479.98); // for phones size S
+
+
+// wrapper ============================================================================================================================================================================================================================================================================================================================================================================================================================================
+body {
+  //overflow: hidden;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+.MainWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  ///////////////
+  //scroll-snap-type: y proximity;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  //pressing footer to bottom
+  > main {
+    flex: 1 1 auto;
+  }
+}
+
+//bounding container ======================================================================================================================================================================================================================
+
+/*
+(i) Styles will be applied to
+all classes containing *__container
+For example header__container, main__container, etc.
+Snippet (HTML): cnt
+*/
+@if ($responsiveType==1) {
+  //responsive
+  [class*="__wrapper"] {
+    width: 100%;
+
+    @if ($maxWidthWrapper > 0) {
+      max-width: rem($maxWidthWrapper);
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+    @if ($wrapperPadding  > 0) {
+      padding-right: rem($wrapperPadding/ 2);
+      padding-left: rem($wrapperPadding/ 2);
+    }
+  }
+} @else {
+  //by breakpoints
+  [class*="__wrapper"] {
+    margin: 0 auto;
+    @if ($maxWidthWrapper > 0) {
+      max-width: rem($maxWidthWrapper);
+      box-sizing: content-box;
+    } @else {
+      @if ($wrapperPadding>0) {
+        padding-right: rem($wrapperPadding/ 2);
+        padding-left: rem($wrapperPadding/ 2);
+      }
+    }
+    @media (max-width: $pc) {
+      max-width: rem(950);
+    }
+    @media (max-width: $tablet) {
+      max-width: rem(730);
+    }
+    @media (max-width: $mobile) {
+      max-width: none;
+      @if ($wrapperPadding>0 and $maxWidthWrapper>0) {
+        padding-right: rem($wrapperPadding/ 2);
+        padding-left: rem($wrapperPadding/ 2);
+      }
+    }
+  }
+}
+
